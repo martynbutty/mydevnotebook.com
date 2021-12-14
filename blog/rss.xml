@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>My Dev Notebook Blog</title>
+        <link>https://www.mydevnotebook.com/blog</link>
+        <description>My Dev Notebook Blog</description>
+        <lastBuildDate>Tue, 14 Dec 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Docker build fail with VPN]]></title>
+            <link>https://www.mydevnotebook.com/blog/2021/12/14/Docker-VPN-Network-Fix</link>
+            <guid>/2021/12/14/Docker-VPN-Network-Fix</guid>
+            <pubDate>Tue, 14 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[A possible solution to docker build failures that require resources over a VPN]]></description>
+            <content:encoded><![CDATA[<p>Docker Desktop does a great job of taking care of all the networking for you and usually <em>“just works”</em>, even if you are connected to a corporate VPN.</p><p>Sometimes you may encounter difficulties which usually manifest as the <strong>build stage failing</strong>. This can happen when part of your build process requires resources that are only available when connected via your company VPN (e.g. internal package server).</p><p><img src="./Docker_VPN.png" alt="Docker VPN"/></p><h2>The Problem</h2><h3>Tl;dr</h3><p>Docker may have allocated an internal network range which clashes with your VPN.</p><h3>Detailed example</h3><p>Your project has dependancies on an internal server which might have an IP address of <code>172.17.2.79</code>. This is a <a href="https://en.wikipedia.org/wiki/Private_network">private network</a>) which is only accessible while connected to the companies private VPN.
+Docker has created its own internal network which is using the  <code>172.17.0.0/16</code> range of addresses.
+The build process tries to access your companies private package server at <code>172.17.2.79</code>.  The process is running within the private docker network. It therefore thinks the server should be available on the local docker network. It is also unable to send any traffic via the VPN due to the overlap or clash of the network range.</p><h2>Confirming this is the problem</h2><p>To confirm the above scenario is indeed the root cause of the docker build failure, we need to compare the subnet docker is using against that in use by the VPN.
+<strong>### Get Docker Network</strong>
+First, list all the available docker networks</p><pre><code>$docker network ls
+</code></pre><p>which should output something similar to</p><pre><code>NETWORK ID     NAME      DRIVER    SCOPE
+ceb424d5d73d   bridge    bridge    local
+ad6318517651   host      host      local
+a2cfb19e8122   none      null      local
+</code></pre><p>We’re interested in the “bridge” network, so we’ll inspect it by using it’s ID:</p><pre><code>$docker network inspect ceb424d5d73d
+</code></pre><p>which should contain something like the following in its output</p><pre><code>&quot;Config&quot;: [
+    {
+        &quot;Subnet&quot;: &quot;172.17.0.0/16&quot;
+    }
+]
+</code></pre><p>So we know that in the above case, docker is using the network range <code>172.17.0.0/16</code>
+<strong>### Get VPN Network</strong>
+Next we need to find out what network the VPN is using. The below should work on a MacBook Pro or linux. If you’re running on Windows, <code>ipconfig</code> may work better.
+From a terminal enter the command <code>$ifconfig</code> or <code>$netstat -i</code> and look for a <code>utun*</code> entry with an IP address. For example, doing <code>$netstat -i</code> might output:</p><pre><code>utun3      1500  &lt;Link#17&gt;                      2298484     0   754726     0     0
+utun3      1500  172.17.144/22 172.17.146.96    2298484     -   754726     -     -
+</code></pre><p>This tells us the the VPN is using the network range <code>172.17.144/22</code>.
+If you can remember your <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#IPv4_CIDR_blocks">CIDR blocks</a>, you’ll see that the docker network collides with that of the VPN. This means that docker will be unable to use the VPN network to get to our internal server which has the address <code>172.17.2.79</code>.</p><h2>Docker Network Fix</h2><p>To resolve the above problem, we can change the address pool used by the docker daemon.
+With docker desktop, the easiest way to achieve this is to open the docker desktop dashboard (UI), click the “settings” gear cog in the top right of the screen to view the preferences screen. Select “Docker Engine” from the left hand menu, which should show some JSON config. Add the below section of config into the existing JSON config (keeping what’s already there), and click the “Apply &amp; Restart” button</p><pre><code>&quot;default-address-pools&quot;: [
+    {
+      &quot;base&quot;: &quot;172.240.0.0/16&quot;,
+      &quot;size&quot;: 24
+    }
+  ],
+</code></pre><p>Now if you repeat the steps to <a href="#Get-Docker-Network">Get Docker Network</a> (note, the network ID most likely changed!), you should see that docker now uses subnet <code>172.240.0.0/24</code>, and <code>docker build</code> should now be able to complete steps such as <code>dotnet build</code> which would have previously failed to reach the internal server</p>]]></content:encoded>
+        </item>
+    </channel>
+</rss>
