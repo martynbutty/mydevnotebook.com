@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmydevnotebook_com=self.webpackChunkmydevnotebook_com||[]).push([[535],{5641:function(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Docker build fail with VPN","permalink":"/blog/2021/12/14/Docker-VPN-Network-Fix"}]}')}}]);

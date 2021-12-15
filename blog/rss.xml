@@ -43,5 +43,103 @@ With docker desktop, the easiest way to achieve this is to open the docker deskt
   ],
 </code></pre><p>Now if you repeat the steps to <a href="#Get-Docker-Network">Get Docker Network</a> (note, the network ID most likely changed!), you should see that docker now uses subnet <code>172.240.0.0/24</code>, and <code>docker build</code> should now be able to complete steps such as <code>dotnet build</code> which would have previously failed to reach the internal server</p>]]></content:encoded>
         </item>
+        <item>
+            <title><![CDATA[Computer Memory Types]]></title>
+            <link>https://www.mydevnotebook.com/blog/2021/11/06/memory</link>
+            <guid>/2021/11/06/memory</guid>
+            <pubDate>Sat, 06 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[computer memory types and considerations from a tinyML perspective]]></description>
+            <content:encoded><![CDATA[<p>Here is an overview of some common types of computer memory. Although general in nature, this page is more about considerations
+you may need to make when dealing with machine learning on a microcontroller running ML perspective (TinyML).</p><h2>What is it</h2><p>Computers operate on <strong>bits</strong> which can take the value zero or one.</p><p>To be more useful, these bits are grouped into <strong>bytes</strong>. One byte comprises 8 bits, which can then represent things like letters
+or weights in a neural network (NN). </p><p>Microcontrollers and CPU&#x27;s read and write bytes to memory.  A memory address is a hexadecimal value that tells the
+cpu/microcontroller etc where the memory it is looking for is located.</p><h2>Types of memory</h2><h3>Flash</h3><p>Flash memory is non volatile (it won&#x27;t lose the stored information when powered down). It is used to store program code,
+machine learning (ML) model weights etc. </p><p>The process of saving to flash memory is slow and also gradually degrades the memory over time, therefore flash memory
+is better suited to read only use, and only overwritten when reprogramming (a microcontroller)</p><h3>RAM</h3><p>RAM is volatile (the stored information is lost when powered off). It is used for temporary storage of variables like
+input and output buffers and intermediate tensors. RAM is much faster than flash for read/write operations, so is ideal
+for use as primary memory during code execution</p><h3>Types of RAM</h3><h4>Dynamic RAM (DRAM)</h4><p>DRAM uses a single transistor and capacitor to store a bit. As the capacitor quickly loses charge, it must be periodically
+refreshed to prevent the stored information being lost. This usually occurs between read and write operations. DRAM is
+most suitable for main memory in modern computers.</p><h4>Static RAM (SRAM)</h4><p>SRAM uses six transistors to store each bit. It is able to maintain the stored information without refreshing. SRAM is
+more expensive than DRAM on account of the number of transistors required, but is faster and requires less power due to
+not needing to refresh. SRAM is therefore more suitable to caches, and is commonly used as main memory on microcontrollers.</p><h4>Registers</h4><p>A third type of RAM is a register. A special purpose register is typically for low level computing functions like the program
+counter and stack pointer. General purpose registers are used to store values and memory addresses. It is unlikely you
+will need to play around with registers as a tinyML engineer unless you are working at the assembly code level.</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[WSDL Glossary]]></title>
+            <link>https://www.mydevnotebook.com/blog/2021/10/02/wsdl</link>
+            <guid>/2021/10/02/wsdl</guid>
+            <pubDate>Sat, 02 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[What is WSDL]]></description>
+            <content:encoded><![CDATA[<h2>What is WSDL</h2><p>Web services description language (WSDL) is an XML document that describes a web service. WSDL is often pronounced &quot;wizdul&quot;.
+It describes what operations a web service provides, the structure of the messages it sends and receives, and how to send
+those messages. This article is a very brief overview of the common WSDL elements. If you are new to WSDL, you may prefer
+to read <a href="https://msdn.microsoft.com/en-us/library/ms996486.aspx" title="Understanding WSDL">Understanding WSDL</a>.</p><h2>Core WSDL Elements</h2><h3>Definition</h3><p>The <code>&lt;definitions&gt;</code> element is the WSDL&#x27;s root XML element. It typically contains several other elements including
+<a href="#types">types</a> , <a href="#message">message</a>, <a href="#portType">portType</a>, <a href="#binding">binding</a> and <a href="#service">service</a>.</p><h3>Types</h3><p>The <code>&lt;types&gt;</code> element contains XML schema type definitions (xsd). The xsd&#x27;s describe the structure of the XML sent and
+received by the web service.</p><h3>Message</h3><p>A message is an XML document that can be sent or received by the web service. A message is usually associated with one
+or more <a href="#operation">operation</a>. For example, an operation to <code>createNewOrder</code> might have an input message <code>newOrder</code>
+and an output message <code>orderStatus</code>.</p><h3>PortType (Interfac</h3><p>The <code>&lt;portType&gt;</code> element is best thought of as an interface, and will be renamed as such in version 1.2 of the WSDL
+specification. It contains one or more <code>&lt;operation&gt;</code> elements.</p><h3>Operation</h3><p>An <code>&lt;operation&gt;</code> element defines an operation with the web service. It groups together the <a href="#message">message</a> elements
+that can be passed to or from the web service. An operation can have an input and output message (request-response), or
+it can just define an input message (one-way), send an output message only (notification) or send an output message to
+ask for an input message (solicit-response). The operation may also define a fault message too.</p><h3>Binding</h3><p>A <code>&lt;binding&gt;</code> element is a collection of one or more <code>operations</code>. It describes how an operation is implemented. It
+defines the communication protocol (e.g. http), style of service (document or rpc), and the <code>SOAPAction</code> HTTP header for
+the defined operations.</p><h3>Document &amp; RPC</h3><p>The document style indicates that the SOAP body will contain an XML document (and is able to be validated by the previously
+defined xsd&#x27;s). An RPC style indicates that the SOAP body will contain an XML representation of a method call. It includes
+the method name and parameters of the method to generate the XML structure. Follow this link for a more in-depth discussion
+on <a href="http://java.globinch.com/enterprise-java/web-services/soap-binding-document-rpc-style-web-services-difference/" title="Document vs RPC">Document and RPC style web services</a></p><h3>Service</h3><p>The <code>&lt;service&gt;</code> element defines the endpoint (port) that exposes a particular binding. I.e. the URL to use to call an
+operation within the binding</p><h3>Example WSDL Document</h3><pre><code class="language-xml">&lt;definitions name=&quot;EndorsementSearch&quot;  
+ targetNamespace=&quot;http://namespaces.snowboard-info.com&quot;  
+ xmlns:es=&quot;http://www.snowboard-info.com/EndorsementSearch.wsdl&quot;  
+ xmlns:esxsd=&quot;http://schemas.snowboard-info.com/EndorsementSearch.xsd&quot;  
+ xmlns:soap=&quot;http://schemas.xmlsoap.org/wsdl/soap/&quot;  
+ xmlns=&quot;http://schemas.xmlsoap.org/wsdl/&quot;  
+&gt;  
+  
+ &lt;!-- omitted types section with content model schema info \--&gt;  
+  
+ &lt;message name=&quot;GetEndorsingBoarderRequest&quot;&gt;  
+  &lt;part name=&quot;body&quot; element=&quot;esxsd:GetEndorsingBoarder&quot;/&gt;  
+ &lt;/message&gt;  
+  
+ &lt;message name=&quot;GetEndorsingBoarderResponse&quot;&gt;  
+  &lt;part name=&quot;body&quot; element=&quot;esxsd:GetEndorsingBoarderResponse&quot;/&gt;  
+ &lt;/message&gt;  
+  
+ &lt;portType name=&quot;GetEndorsingBoarderPortType&quot;&gt;  
+  &lt;operation name=&quot;GetEndorsingBoarder&quot;&gt;  
+   &lt;input message=&quot;es:GetEndorsingBoarderRequest&quot;/&gt;  
+   &lt;output message=&quot;es:GetEndorsingBoarderResponse&quot;/&gt;  
+   &lt;fault message=&quot;es:GetEndorsingBoarderFault&quot;/&gt;  
+  &lt;/operation&gt;  
+ &lt;/portType&gt;  
+  
+ &lt;binding name=&quot;EndorsementSearchSoapBinding&quot; type=&quot;es:GetEndorsingBoarderPortType&quot;&gt;  
+  &lt;soap:binding style=&quot;document&quot; transport=&quot;http://schemas.xmlsoap.org/soap/http&quot;/&gt;  
+  &lt;operation name=&quot;GetEndorsingBoarder&quot;&gt;  
+   &lt;soap:operation soapAction=&quot;http://www.snowboard-info.com/EndorsementSearch&quot;/&gt;  
+   &lt;input&gt;  
+    &lt;soap:body use=&quot;literal&quot; 
+                   namespace=&quot;http://schemas.snowboard-info.com/EndorsementSearch.xsd&quot;/&gt;  
+   &lt;/input&gt;  
+   &lt;output&gt;  
+    &lt;soap:body use=&quot;literal&quot; 
+                   namespace=&quot;http://schemas.snowboard-info.com/EndorsementSearch.xsd&quot;/&gt;  
+   &lt;/output&gt;  
+   &lt;fault&gt;  
+    &lt;soap:body use=&quot;literal&quot; 
+                   namespace=&quot;http://schemas.snowboard-info.com/EndorsementSearch.xsd&quot;/&gt;  
+   &lt;/fault&gt;  
+  &lt;/operation&gt;  
+ &lt;/binding&gt;  
+  
+ &lt;service name=&quot;EndorsementSearchService&quot;&gt;  
+  &lt;documentation&gt;snowboarding\-info.com Endorsement Service&lt;/documentation&gt;  
+  &lt;port name=&quot;GetEndorsingBoarderPort&quot; binding=&quot;es:EndorsementSearchSoapBinding&quot;&gt;  
+   &lt;soap:address location=&quot;http://www.snowboard-info.com/EndorsementSearch&quot;/&gt;  
+  &lt;/port&gt;  
+ &lt;/service&gt;  
+&lt;/definitions&gt;
+</code></pre>]]></content:encoded>
+        </item>
     </channel>
 </rss>
