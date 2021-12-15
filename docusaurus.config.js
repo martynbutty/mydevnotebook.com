@@ -44,7 +44,7 @@ const config = {
         title: 'My Dev Notebook',
         logo: {
           alt: 'My Dev Notebook Logo',
-          src: 'img/notebook_transp.png',
+          src: 'img/notebook.png',
         },
         items: [
           {
