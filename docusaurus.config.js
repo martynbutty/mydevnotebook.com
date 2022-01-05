@@ -38,7 +38,10 @@ const config = {
   ],
 
   scripts: [
-   // String format.
+      {
+          src: 'https://www.googletagmanager.com/gtag/js?id=G-H8PHRNFHKD',
+          async: true,
+      },
       '/ga.js',
   ],
 
