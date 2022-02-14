@@ -17,9 +17,8 @@ Having different instance types means you only use and pay for resources that yo
 rather than over provisioning and paying for unused resource.
 
 > EC2 is an abbreviation for “elastic compute cloud”.
-> The abbreviation is formed using the first letters of each word. 
-> Where the same letter appears more than once, a count of that letter is used. 
-> Another example being S3 : Simple Storage Service
+> Where the same letter appears more than once, a count of that letter is used (e.g. two consecutive C's become C2)
+> Another example being S3 : Simple Storage Service - 3 S's
 
 Pretty much the only constant thing when working with AWS is that things change. 
 This article therefore is only meant to help you understand the EC2 instance code format rather than explaining every
