@@ -19,9 +19,8 @@ capabilities and overall size.</p><p><img src="./AWS_EC2_codes.png" alt="EC2 Ins
 As AWS has to support an almost endless set of possible workloads, they provide hundreds of different instance types.<br/>
 <!-- -->Having different instance types means you only use and pay for resources that you need,
 rather than over provisioning and paying for unused resource.</p><blockquote><p>EC2 is an abbreviation for “elastic compute cloud”.
-The abbreviation is formed using the first letters of each word.
-Where the same letter appears more than once, a count of that letter is used.
-Another example being S3 : Simple Storage Service</p></blockquote><p>Pretty much the only constant thing when working with AWS is that things change.
+Where the same letter appears more than once, a count of that letter is used (e.g. two consecutive C&#x27;s become C2)
+Another example being S3 : Simple Storage Service - 3 S&#x27;s</p></blockquote><p>Pretty much the only constant thing when working with AWS is that things change.
 This article therefore is only meant to help you understand the EC2 instance code format rather than explaining every
 possible instance type available.
 You can see what instance types are available here: <a href="https://aws.amazon.com/ec2/instance-types/">Amazon EC2 Instance Types - Amazon Web Services</a> </p><h2>Instance code format</h2><p>As you can see from the above image, the instance code is divided into three or four sections (one section is optional).  </p><h3>Family</h3><p>The first section is typically a single letter (but not always) and denotes the main instance type family.
