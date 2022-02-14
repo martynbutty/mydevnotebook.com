@@ -2,11 +2,43 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.mydevnotebook.com/blog</id>
     <title>My Dev Notebook Blog</title>
-    <updated>2021-12-14T00:00:00.000Z</updated>
+    <updated>2022-02-14T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.mydevnotebook.com/blog"/>
     <subtitle>My Dev Notebook Blog</subtitle>
     <icon>https://www.mydevnotebook.com/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[AWS EC2 Instance Types]]></title>
+        <id>/2022/02/14/AWS-EC2-Instance-Types</id>
+        <link href="https://www.mydevnotebook.com/blog/2022/02/14/AWS-EC2-Instance-Types"/>
+        <updated>2022-02-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[How to understand AWS EC2 instance type codes]]></summary>
+        <content type="html"><![CDATA[<p>To try and make it easier to select an instance type, AWS uses a set format for instance type naming.
+This article will help you understand how AWS breaks down the instance type into families, generations,
+capabilities and overall size.</p><p><img src="./AWS_EC2_codes.png" alt="EC2 Instance Codes"/></p><p>EC2 is Amazon Web Services’ (AWS) <strong>Elastic Compute Cloud</strong>.
+As AWS has to support an almost endless set of possible workloads, they provide hundreds of different instance types.<br/>
+<!-- -->Having different instance types means you only use and pay for resources that you need,
+rather than over provisioning and paying for unused resource.</p><blockquote><p>EC2 is an abbreviation for “elastic compute cloud”.
+The abbreviation is formed using the first letters of each word.
+Where the same letter appears more than once, a count of that letter is used.
+Another example being S3 : Simple Storage Service</p></blockquote><p>Pretty much the only constant thing when working with AWS is that things change.
+This article therefore is only meant to help you understand the EC2 instance code format rather than explaining every
+possible instance type available.
+You can see what instance types are available here: <a href="https://aws.amazon.com/ec2/instance-types/">Amazon EC2 Instance Types - Amazon Web Services</a> </p><h2>Instance code format</h2><p>As you can see from the above image, the instance code is divided into three or four sections (one section is optional).  </p><h3>Family</h3><p>The first section is typically a single letter (but not always) and denotes the main instance type family.
+The family lets you choose a type broadly suited to your tasks, and the most popular ones are discussed below (e.g. CPU optimised, memory optimised etc.)</p><h3>Generation</h3><p>The higher the generation number the newer the instance type. You should usually choose the latest available
+generation as that provides the newest features and generally can cost less. i.e. a newer generation might offer faster
+CPU&#x27;s, or more CPU, or more memory, or some other combination of features with better cost optimisation.
+The exception to this rule might be if you only want to use the AWS free tier, as (at the time of writing)
+the <code>t2.micro</code> is free tier eligible, but the <code>t3.micro</code> is not.</p><h3>Additional Features</h3><p>This is an <strong>optional</strong> code. For example, <code>R6gd</code> instances offer
+<em>local NVMe-based SSDs are physically connected to the host server and provide block-level storage that is coupled to the lifetime of the instance</em>,
+where <code>R6g</code> is <em>EBS-Only storage</em>.</p><h3>Instance Size</h3><p>The part after the period (dot) defines the instance size. This is usually a T-Shirt style size, but there are other options
+too like <em>.metal</em> for example.</p><h2>Popular Family Types</h2><h3>A</h3><table><thead><tr><th></th><th>Description</th></tr></thead><tbody><tr><td>Characteristics</td><td>64-bit Arm cores using Graviton processors.</td></tr><tr><td>mnemonic</td><td><strong>a</strong> for Arm processor</td></tr><tr><td>example</td><td>a1.large : 2 CPU and 4 GiB Mem</td></tr></tbody></table><h2>T</h2><table><thead><tr><th></th><th>Description</th></tr></thead><tbody><tr><td>Characteristics</td><td>T instances are general purpose that are “burstable”. If you use an “m” or “c” class type, you’re paying for the full capacity of the instance whether it’s in use or not. As a lot of workloads can have spikes of demand and longer periods of low demand, you can potentially save money by using a T type. T type machines have a baseline of capacity. When your system operates below the baseline, you earn CPU credits. When your system comes under high load, it can “burst” to use all the CPU by spending credits (or borrowing up to a days worth of credits depending on how you configure your instance).</td></tr><tr><td>mnemonic</td><td><strong>t</strong> for bursTable</td></tr><tr><td>example</td><td>t3.large : 2 CPU 8 GiB mem (36 CPU credits/hr)</td></tr></tbody></table><h2>M</h2><table><thead><tr><th></th><th>Description</th></tr></thead><tbody><tr><td>Characteristics</td><td>General purpose machines optimised balance of CPU, memory and network performance</td></tr><tr><td>mnemonic</td><td><strong>m</strong> for medium</td></tr><tr><td>example</td><td>m5.large : 2 CPU 8 GiB mem</td></tr></tbody></table><h2>C</h2><table><thead><tr><th></th><th>Description</th></tr></thead><tbody><tr><td>Characteristics</td><td>Optimised for compute intensive workloads.</td></tr><tr><td>mnemonic</td><td><strong>c</strong> for Compute</td></tr><tr><td>example</td><td>c5.large : 2 CPU 4 GiB mem</td></tr></tbody></table><h2>R</h2><table><thead><tr><th></th><th>Description</th></tr></thead><tbody><tr><td>Characteristics</td><td>optimised for memory.</td></tr><tr><td>mnemonic</td><td><strong>r</strong> for RAM</td></tr><tr><td>example</td><td>r5.large : 2 CPU 16GiB mem</td></tr></tbody></table><h2>Others</h2><h3>Accelerated computing</h3><p>Optimised for machine learning, graphics, image processing etc. Some examples include the P<!-- -->[ictures]<!-- -->, inf<!-- -->[erence]<!-- --> and g<!-- -->[raphics]<!-- --> types.</p><h3>Storage</h3><p>Instances optimised for storage, i.e. where high sequential read and writes operations on large data sets is desirable
+Examples include D<!-- -->[ense]<!-- --> (or D<!-- -->[ata]<!-- -->), I<!-- -->[ops]<!-- -->, H<!-- -->[dd]<!-- --> based and others</p>]]></content>
+        <author>
+            <name>Martyn Butterworth</name>
+            <uri>https://github.com/MartynButty</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Docker build fail with VPN]]></title>
         <id>/2021/12/14/Docker-VPN-Network-Fix</id>
