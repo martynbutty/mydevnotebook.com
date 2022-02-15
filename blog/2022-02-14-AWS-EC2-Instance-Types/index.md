@@ -49,35 +49,35 @@ The part after the period (dot) defines the instance size. This is usually a T-S
  too like *.metal* for example.
 
 ## Popular Family Types
-### A
+### A - Arm Processors
 | | Description|
 |---|---|
 |Characteristics|64-bit Arm cores using Graviton processors.|
 |mnemonic|**a** for Arm processor|
 |example|a1.large : 2 CPU and 4 GiB Mem|
 
-### T
+### T - General Purpose, Burstable
 | | Description|
 |---|---|
 |Characteristics|T instances are general purpose that are “burstable”. If you use an “m” or “c” class type, you’re paying for the full capacity of the instance whether it’s in use or not. As a lot of workloads can have spikes of demand and longer periods of low demand, you can potentially save money by using a T type. T type machines have a baseline of capacity. When your system operates below the baseline, you earn CPU credits. When your system comes under high load, it can “burst” to use all the CPU by spending credits (or borrowing up to a days worth of credits depending on how you configure your instance).|
 |mnemonic|**t** for bursTable|
 |example|t3.large : 2 CPU 8 GiB mem (36 CPU credits/hr)|
 
-### M
+### M - General Purpose, Medium
 | | Description|
 |---|---|
 |Characteristics|General purpose machines optimised balance of CPU, memory and network performance|
 |mnemonic|**m** for medium|
 |example|m5.large : 2 CPU 8 GiB mem|
 
-### C
+### C - General Purpose, Compute
 | | Description|
 |---|---|
 |Characteristics|Optimised for compute intensive workloads.|
 |mnemonic|**c** for Compute|
 |example|c5.large : 2 CPU 4 GiB mem|
 
-### R
+### R - General Purpose, Memory
 | | Description|
 |---|---|
 |Characteristics|optimised for memory.|
