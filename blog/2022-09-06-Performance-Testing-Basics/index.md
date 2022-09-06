@@ -12,8 +12,7 @@ You may not need to have a full performance test suite straight away, so conside
 - What are you trying to test and why
 - Do you know what good looks like
 - What environments are available, and how much are they like production environments
-- For an API, which endpoints/calls will you test, and can you (or do you need to) vary each request to avoid testing 
-- the cache layer
+- For an API, which endpoints/calls will you test, and can you (or do you need to) vary each request to avoid testing the cache layer
 
 ## SLI’s and SLO’s
 Service level indicators (SLI) and service level objectives (SLO) are a set of things you can define to describe what 
@@ -38,8 +37,8 @@ It’s a good exercise to agree a set of SLI and or SLO with the team before you
 -   Insufficient resources
 
 ## Where and When to test
-Running against your production system is probably a bad idea (as well as effecting your own production system, you 
-could potentially cause third party systems problems too!, not that I've ever inadvertently tested this theory ;) ). 
+Running against your production system is probably a bad idea. As well as effecting your own production system, you 
+could potentially cause third party systems problems too!, not that I've ever inadvertently tested this theory ;) 
 
 If you use cloud hosting, you can probably create a production like system fairly easily. 
 
@@ -65,8 +64,8 @@ Load testing will test your service by simulating actual users of your system. T
 like your database, code and hardware behave under load.
 ![Load Test](./load_test.png)
 
-This type of test should use expected load levels (maybe based on your SLO’s or non-functional requirements (NFR)’s). 
-You probably want to slowly ramp up requests from zero, over a short time (half an hour), to “warm” the service under 
+This type of test should use expected load levels. It could be based on your SLO’s or non-functional requirements (NFR)’s. 
+You probably want to slowly ramp up requests from zero over a short time (half an hour)x§x  to “warm” the service under 
 test and its server. The expected load should then be sustained for at least a further one to two hours before another 
 gradual ramp down to zero requests.
 
