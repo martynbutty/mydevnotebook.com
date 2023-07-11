@@ -13,6 +13,7 @@ your application, define server resources like CPU, memory and disk space, and c
 of caching.
 
 ![Performance Test Types](./performance_test_types.png)
+<!--truncate-->
 
 You may not need to have a full performance test suite straight away, so consider;
 - What are you trying to test and why

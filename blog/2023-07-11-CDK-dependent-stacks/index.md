@@ -13,7 +13,7 @@ AWS CDK makes it easy to share resources in different stacks. For example, allow
 
 The problem you've probably encountered seeing as you're here, is that you're trying to remove  that cross stack reference, but you see  something like:
 `Export <<some AWS ref>> cannot be deleted as it is in use by <<some stack>>`
-
+<!--truncate-->
 ## How did this happen
 Cross stack references occur when you have two stacks, and you share something from one stack with the other. When CDK is building the cloudFormation template, it will automatically manage these cross stack references. It does this by "exporting" the construct from the producing stack (using an auto generated name), and "importing" the construct in the consuming construct.
 
