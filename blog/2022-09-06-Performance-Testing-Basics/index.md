@@ -22,7 +22,7 @@ types of performance tests you should consider.
 **SLI’s** are things that are important to measure and report on, e.g. how long it takes to return a response to a 
 request, or the error rate (maybe as a percentage of all requests)
 
-**SLO’s** are objectives or target values / levels of your service, of something that is measured by an SLI. e.g. a 
+**SLO’s** are objectives or target values for your service, of something that is measured by an SLI. e.g. a 
 response should be returned within 100 milliseconds.
 
 It’s a good exercise to agree a set of SLI and or SLO with the team before you start performance testing.
