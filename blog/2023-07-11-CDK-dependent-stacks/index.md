@@ -1,3 +1,9 @@
+---
+title: AWS CDK dependent stacks
+description: How to decouple dependent AWS stacks
+authors: [martyn]
+hide_table_of_contents: false
+---
 # AWS CDK export cannot be deleted as it is in use
 Sometimes you try deploying a change to an existing multi-stack CDK project, only to get an error message similar to "**Export cannot be deleted as it is in use**". Read on if you've encountered this error and are struggling to fix it, or you're just interested in finding out about dependent stacks in AWS.
 ## AWS CDK dependent stacks

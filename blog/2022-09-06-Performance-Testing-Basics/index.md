@@ -1,3 +1,9 @@
+---
+title: Performance Testing Basics
+description: Quick introduction to the different types of performance tests
+authors: [martyn]
+hide_table_of_contents: false
+---
 # Performance Testing Basics
 Performance testing is more than just sending a large number of requests at a target system to see what happens. 
 
