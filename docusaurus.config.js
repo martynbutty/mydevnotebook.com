@@ -29,6 +29,8 @@ const config = {
         },
         blog: {
           showReadingTime: true,
+          postsPerPage: 30,
+          blogSidebarCount: 'ALL',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
