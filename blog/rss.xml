@@ -8,11 +8,11 @@
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
-            <title><![CDATA[AWS CDK export cannot be deleted as it is in use]]></title>
+            <title><![CDATA[AWS CDK dependent stacks]]></title>
             <link>https://www.mydevnotebook.com/blog/2023/07/11/CDK-dependent-stacks</link>
             <guid>/2023/07/11/CDK-dependent-stacks</guid>
             <pubDate>Tue, 11 Jul 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[Sometimes you try deploying a change to an existing multi-stack CDK project, only to get an error message similar to "Export cannot be deleted as it is in use". Read on if you've encountered this error and are struggling to fix it, or you're just interested in finding out about dependent stacks in AWS.]]></description>
+            <description><![CDATA[How to decouple dependent AWS stacks]]></description>
             <content:encoded><![CDATA[<p>Sometimes you try deploying a change to an existing multi-stack CDK project, only to get an error message similar to &quot;<strong>Export cannot be deleted as it is in use</strong>&quot;. Read on if you&#x27;ve encountered this error and are struggling to fix it, or you&#x27;re just interested in finding out about dependent stacks in AWS.</p><h2>AWS CDK dependent stacks</h2><p>AWS CDK makes it easy to share resources in different stacks. For example, allowing an SQS queue from one stack to be used by a lambda in a different stack. In this case, CDK automatically takes care of cross stack references, and also ensures deployments happen in the correct order.</p><p><img src="./DependentStacks.png" alt="CDK dependent stacks architecture"/></p><p>The problem you&#x27;ve probably encountered seeing as you&#x27;re here, is that you&#x27;re trying to remove  that cross stack reference, but you see  something like:
 <code>Export &lt;&lt;some AWS ref&gt;&gt; cannot be deleted as it is in use by &lt;&lt;some stack&gt;&gt;</code></p><h2>How did this happen</h2><p>Cross stack references occur when you have two stacks, and you share something from one stack with the other. When CDK is building the cloudFormation template, it will automatically manage these cross stack references. It does this by &quot;exporting&quot; the construct from the producing stack (using an auto generated name), and &quot;importing&quot; the construct in the consuming construct.</p><p>If you make a change that impacts the cross stack dependency, you can find yourself in a circular trap where CDK knows it has to deploy the producingStack first, but that fails because the existing (already deployed) version of the consuming stack still requires the exports you&#x27;re trying to remove, and it cannot deploy the consumingStack first because that depends on the producingStack.</p><p><img src="./CDK-dependent-stacks.png" alt="CDK depent stacks deployment problem"/></p><h2>Example</h2><p>Given a stack <code>producingStack</code> that creates an SQS queue, and a <code>consumingStack</code> that has a lambda function that is allowed to push messages to the SQS queue, we end up with (partial) CDK code that looks a little like below (full example code can be found <a href="https://github.com/martynbutty/cdkDependantStacks">here</a>)</p><pre><code class="language-typeScript">...
 export class producingStack extends cdk.Stack {  
@@ -94,7 +94,7 @@ Outputs
             <link>https://www.mydevnotebook.com/blog/2022/09/06/Performance-Testing-Basics</link>
             <guid>/2022/09/06/Performance-Testing-Basics</guid>
             <pubDate>Tue, 06 Sep 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[Performance testing is more than just sending a large number of requests at a target system to see what happens.]]></description>
+            <description><![CDATA[Quick introduction to the different types of performance tests]]></description>
             <content:encoded><![CDATA[<p>Performance testing is more than just sending a large number of requests at a target system to see what happens. </p><p>Performance testing can help you to understand how many requests your system can handle, how long it takes to respond,
 if a recent code change has improved or reduced performance and more. It can help you plan for when you need to scale
 your application, define server resources like CPU, memory and disk space, and consider the introduction or improvement
