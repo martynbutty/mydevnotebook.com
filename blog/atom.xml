@@ -2,11 +2,93 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.mydevnotebook.com/blog</id>
     <title>My Dev Notebook Blog</title>
-    <updated>2022-09-06T00:00:00.000Z</updated>
+    <updated>2023-07-11T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://www.mydevnotebook.com/blog"/>
     <subtitle>My Dev Notebook Blog</subtitle>
     <icon>https://www.mydevnotebook.com/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[AWS CDK export cannot be deleted as it is in use]]></title>
+        <id>/2023/07/11/CDK-dependent-stacks</id>
+        <link href="https://www.mydevnotebook.com/blog/2023/07/11/CDK-dependent-stacks"/>
+        <updated>2023-07-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Sometimes you try deploying a change to an existing multi-stack CDK project, only to get an error message similar to "Export cannot be deleted as it is in use". Read on if you've encountered this error and are struggling to fix it, or you're just interested in finding out about dependent stacks in AWS.]]></summary>
+        <content type="html"><![CDATA[<p>Sometimes you try deploying a change to an existing multi-stack CDK project, only to get an error message similar to &quot;<strong>Export cannot be deleted as it is in use</strong>&quot;. Read on if you&#x27;ve encountered this error and are struggling to fix it, or you&#x27;re just interested in finding out about dependent stacks in AWS.</p><h2>AWS CDK dependent stacks</h2><p>AWS CDK makes it easy to share resources in different stacks. For example, allowing an SQS queue from one stack to be used by a lambda in a different stack. In this case, CDK automatically takes care of cross stack references, and also ensures deployments happen in the correct order.</p><p><img src="./DependentStacks.png" alt="CDK dependent stacks architecture"/></p><p>The problem you&#x27;ve probably encountered seeing as you&#x27;re here, is that you&#x27;re trying to remove  that cross stack reference, but you see  something like:
+<code>Export &lt;&lt;some AWS ref&gt;&gt; cannot be deleted as it is in use by &lt;&lt;some stack&gt;&gt;</code></p><h2>How did this happen</h2><p>Cross stack references occur when you have two stacks, and you share something from one stack with the other. When CDK is building the cloudFormation template, it will automatically manage these cross stack references. It does this by &quot;exporting&quot; the construct from the producing stack (using an auto generated name), and &quot;importing&quot; the construct in the consuming construct.</p><p>If you make a change that impacts the cross stack dependency, you can find yourself in a circular trap where CDK knows it has to deploy the producingStack first, but that fails because the existing (already deployed) version of the consuming stack still requires the exports you&#x27;re trying to remove, and it cannot deploy the consumingStack first because that depends on the producingStack.</p><p><img src="./CDK-dependent-stacks.png" alt="CDK depent stacks deployment problem"/></p><h2>Example</h2><p>Given a stack <code>producingStack</code> that creates an SQS queue, and a <code>consumingStack</code> that has a lambda function that is allowed to push messages to the SQS queue, we end up with (partial) CDK code that looks a little like below (full example code can be found <a href="https://github.com/martynbutty/cdkDependantStacks">here</a>)</p><pre><code class="language-typeScript">...
+export class producingStack extends cdk.Stack {  
+    public readonly sourceQueueArn: string;  
+    public readonly sourceQueueUrl: string;  
+
+    constructor(scope: Construct, id: string, props?: cdk.StackProps) {  
+        super(scope, id, props);  
+
+        const sourceMessageQueue = new sqs.Queue(this, &#x27;sourceMessageQueue&#x27;, {  
+            queueName: &#x27;sourceMessageQueue&#x27;  
+        });  
+
+        this.sourceQueueArn = sourceMessageQueue.queueArn;  
+        this.sourceQueueUrl = sourceMessageQueue.queueUrl;  
+        ...
+</code></pre><pre><code class="language-typescript">export class consumingStack extends cdk.Stack {  
+    constructor(scope: Construct, id: string, props: HotelsDataAcquisitionStackProps) {  
+        super(scope, id, props);  
+
+        const queue = aws_sqs.Queue.fromQueueArn(this, &#x27;sourceQ&#x27;, props.sqsArn);  
+
+        const eventSource = new SqsEventSource(queue, {  
+            batchSize: 10,  
+            reportBatchItemFailures : true,  
+            enabled: true  
+        });  
+
+        const lambdaEnvVars = {  
+            SQS_QUEUE_URL: props.sqsUrl  
+        };  
+
+        const processingLambda = new NodejsFunction(this, &#x27;processingLambda&#x27;, {  
+            entry: &#x27;./lambda/index.ts&#x27;,  
+            runtime: aws_lambda.Runtime.NODEJS_18_X,  
+            handler: &#x27;main&#x27;,  
+            environment: lambdaEnvVars  
+        });  
+
+        processingLambda.addEventSource(eventSource);  
+    }  
+}
+</code></pre><p>We have already deployed these stacks, and are now trying to refactor our solution to remove the cross stack dependency.</p><h3>Refactor to remove a dependency</h3><p>For this example, we&#x27;re going to simply remove the SQS URL in the lambda&#x27;s environment variable. producingStack is unchanged, and consumingStack looks like below. </p><blockquote><p>You&#x27;d normally just delete code that&#x27;s no longer required, but it&#x27;s shown commented out here to make it easier to see what&#x27;s changing.</p></blockquote><pre><code class="language-typescript">export class consumingStack extends cdk.Stack {  
+    constructor(scope: Construct, id: string, props: HotelsDataAcquisitionStackProps) {  
+        super(scope, id, props);  
+
+        const queue = aws_sqs.Queue.fromQueueArn(this, &#x27;sourceQ&#x27;, props.sqsArn);  
+
+        const eventSource = new SqsEventSource(queue, {  
+            batchSize: 10,  
+            reportBatchItemFailures : true,  
+            enabled: true  
+        });  
+
+        // const lambdaEnvVars = {  
+        //  SQS_QUEUE_URL: props.sqsUrl
+        // };  
+        
+        const processingLambda = new NodejsFunction(this, &#x27;processingLambda&#x27;, {  
+            entry: &#x27;./lambda/index.ts&#x27;,  
+            runtime: aws_lambda.Runtime.NODEJS_18_X,  
+            handler: &#x27;main&#x27;
+            // environment: lambdaEnvVars  
+        });  
+
+        processingLambda.addEventSource(eventSource);  
+    }  
+}
+</code></pre><p>When you try to <code>cdk deploy</code> this change, you get a failure
+`Stack Deployments Failed: Error: The stack named producingStack failed to deploy: UPDATE_ROLLBACK_COMPLETE</p><p>The cause of the rollback is output on the CLI output but it gets hidden at the end. To find it another way, you can use the AWS console -&gt; cloudformation -&gt; producingStack -&gt; events, where we see the offending error:
+<code>Export producingStack:ExportsOutputRefsourceMessageQueueE741C4AF715E0816 cannot be deleted as it is in use by consumingStack</code></p><p>If we do a <code>cdk diff</code> we can see that an export is being removed</p><pre><code>...
+Outputs
+[-] Output ExportsOutputRefsourceMessageQueueE741C4AF715E0816: {&quot;Value&quot;:{&quot;Ref&quot;:&quot;sourceMessageQueueE741C4AF&quot;},&quot;Export&quot;:{&quot;Name&quot;:&quot;producingStack:ExportsOutputRefsourceMessageQueueE741C4AF715E0816&quot;}}
+...
+</code></pre><p>CDK automatically created this export when it first detected the cross stack dependency, and it is now attempting to remove it because of our change to consumingStack.</p><h4>What went wrong</h4><p>CDK knows that consumingStack depends on producingStack (for the SQS exports).  Any deploy will therefore trigger the deploy of the producingStack first, <strong>even if you try to just deploy the consumingStack</strong>.</p><p>In our case, we&#x27;ve only changed the consumingStack. This change means CDK notices we no longer need to &quot;export&quot; the SQS URL, so it removes that export, as can be seen in the above <code>cdk diff</code> partial output. </p><p>CDK tries to first apply the change to producingStack. This change is to remove the export of the SQS URL.  However, CDK notices that the currently deployed version of consumingStack still has an import on that URL (it hasn&#x27;t deployed the change to the consumingStack yet). So CDK fails the deploy and rolls-back.</p><h3>The fix</h3><p>To fix this problem, we make a temporary code change in <code>producingStack</code> to explicitly export a ref to the SQS URL. This is in addition to the decoupling change we already made in <code>consumingStack</code>. This export will therefore be in the cloudformation template regardless of if it is actually used or not. To achieve this, we use the AWS CDK <a href="https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html#exportwbrvalueexportedvalue-options"><code>exportValue()</code></a>  function. In our case, we add the below to <code>producingStack</code>:</p><p><code>this.exportValue(sourceMessageQueue.queueUrl);</code></p><blockquote><p>Note: If you&#x27;re observant, and wanted to completely decouple the stacks, we&#x27;d also have add another export as we also implicitly use the SQS ARN in the initial version. So you&#x27;d also add:</p></blockquote><p><code>this.exportValue(sourceMessageQueue.queueArn);</code></p><p>To confirm our change worked we can run another <code>cdk diff</code>. This time you should notice that the export is no longer removed (we know this by the absence of it&#x27;s removal / negating output from the diff). CDK can therefore safely deploy <code>producingStack</code> without compromising the deployed (old) version of <code>consumingStack</code>. It then deploys the new version of <code>consumingStack</code> which removes the dependency.</p><p>Now we managed to deploy and remove the dependency, we can make a second change to remove the temporary exports (the <code>exportValue()</code>) and redeploy again to be in a clean state. This time a <code>cdk diff</code> should show the removal of the exports, but this is on now that <code>consumingStack</code> no longer depends on the export.</p><h2>Useful commands</h2><ul><li>Use <code>cdk diff</code> to check for removed &quot;exports&quot;. If you see any, then retain them by manually exporting them with <code>exportValue()</code>.</li><li>To see if the currently deployed versions of your stacks have any exports: <code>aws cloudformation list-exports</code>. Note: you will probably always have some exports as the underlying CDK deployment framework usually creates a couple of exports.</li><li>You can see the exports locally in your <code>cdk.out</code> directory. For our example, look in <code>./dependantStacks/cdk.out/producingStack.template.json</code> for the <code>Outputs</code> section</li><li>You can see the exports in the <strong>currently deployed</strong> versions by viewing the cloudformation template in the AWS console -&gt; cloudformation -&gt; producingStack -&gt; template</li><li>Given an export name, you can see which stack(s) use it: <code>aws cloudformation list-imports --export-name producingStack:ExportsOutputRefsourceMessageQueueE741C4AF715E0816</code></li></ul>]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Performance Testing Basics]]></title>
         <id>/2022/09/06/Performance-Testing-Basics</id>
@@ -19,7 +101,7 @@ your application, define server resources like CPU, memory and disk space, and c
 of caching.</p><p><img src="./performance_test_types.png" alt="Performance Test Types"/></p><p>You may not need to have a full performance test suite straight away, so consider;</p><ul><li>What are you trying to test and why</li><li>Do you know what good looks like</li><li>What environments are available, and how much are they like production environments</li><li>For an API, which endpoints/calls will you test, and can you (or do you need to) vary each request to avoid testing the cache layer</li></ul><h2>SLI’s and SLO’s</h2><p>Service level indicators (SLI) and service level objectives (SLO) are a set of things you can define to describe what
 good looks like, and then use as a benchmark for your performance tests. It will also help you understand the different
 types of performance tests you should consider.</p><p><strong>SLI’s</strong> are things that are important to measure and report on, e.g. how long it takes to return a response to a
-request, or the error rate (maybe as a percentage of all requests)</p><p><strong>SLO’s</strong> are objectives or target values / levels of your service, of something that is measured by an SLI. e.g. a
+request, or the error rate (maybe as a percentage of all requests)</p><p><strong>SLO’s</strong> are objectives or target values for your service, of something that is measured by an SLI. e.g. a
 response should be returned within 100 milliseconds.</p><p>It’s a good exercise to agree a set of SLI and or SLO with the team before you start performance testing.</p><h2>What can performance tests help us understand</h2><ul><li>Slow response times</li><li>Long load times</li><li>Bottlenecks</li><li>Scalability problems (disk, CPU, memory, memory leaks, network)</li><li>Software problems</li><li>Software / Framework / Cache configuration problems</li><li>Insufficient resources</li></ul><h2>Where and When to test</h2><p>Running against your production system is probably a bad idea. As well as effecting your own production system, you
 could potentially cause third party systems problems too!, not that I&#x27;ve ever inadvertently tested this theory ;) </p><p>If you use cloud hosting, you can probably create a production like system fairly easily. </p><p>If you cannot provision a production like environment to test against, you should resist “interpreting” the results to
 scale them up or down accordingly to get an approximation of how your production service will behave; You cannot be
