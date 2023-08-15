@@ -4,7 +4,7 @@ description: Considerations and costs of backups of an Aurora database cluster
 authors: [martyn]
 hide_table_of_contents: false
 ---
-In a previous article [Aurora Serverless database selection](https://www.mydevnotebook.com/blog/2023/08/01/Aurora-Serverless-database-selection), I discussed the high level considerations around selecting or upgrading to an Aurora server-less V2 database.
+In a previous article [Aurora Serverless database selection](/blog/2023/08/01/Aurora-Serverless-database-selection), I discussed the high level considerations around selecting or upgrading to an Aurora server-less V2 database.
 
 If you decided that Aurora V2 is the way to go for your needs, one important but sometimes overlooked aspect is disaster recovery (DR), and in particular the backup configuration of your database. The following discusses some of the main points for configuring backups of an Aurora server-less V2 database.
 
