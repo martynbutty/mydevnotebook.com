@@ -44,7 +44,7 @@ Manual snapshots, and AWS backup snapshots are chargeable when they fall outside
 *   Retention period: 10 days
 *   Daily database growth: 5GB ^1
 
-Calculated automated backup storage: `100GB [initial volume size] + (10 X 5GB) [size of incremental records] = 150GB total backsup usage`
+Calculated automated backup storage: `100GB [initial volume size] + (10 X 5GB) [size of incremental records] = 150GB total backup usage`
 
 Subtract the free tier Database cluster volume size at end: 125GB ^2
 
