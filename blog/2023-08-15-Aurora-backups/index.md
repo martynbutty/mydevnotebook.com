@@ -71,6 +71,8 @@ To get an idea of database growth, you can use AWS cost explorer:
 *   Usage type group: RDS: storage
 *   Tag: product -> team/product name
 
+![](./DB-size-from-aws-cost-explorer.png)
+
 ## Backtrack
 
 Worthy of mention is [Backtrack](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Managing.Backtrack.html). Backtrack allows you to "rewind" the DB to a specified time. Backtrack should NOT be used instead of backups, but to complement backups.
