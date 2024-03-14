@@ -3,10 +3,10 @@ title: Scrum Cheat Sheet
 ---
 ## Meetings and Ceremonies
 * Two week sprint (iteration)
-* Sprint Planning (<4hrs) – Start by trying 2hrs. Remember to take couple of breaks, especially if remote working; Don’t forget to set your Sprint Goal.
-* Sprint Review (<1hr) – Invite your stakeholders, this will really help you with your focus during the sprint.
-* Sprint Retrospective (<1hr) – Keep these focused on small improvements for the next iteration. Take one (or two) improvement(s) and add it to your backlog and play it as a story in your next sprint
-* Daily Stand up (<15min) – Keep the focus and try to avoid "solutionising" or too much detail during this time
+* Sprint Planning (&lt;4hrs) – Start by trying 2hrs. Remember to take couple of breaks, especially if remote working; Don’t forget to set your Sprint Goal.
+* Sprint Review ($lt;1hr) – Invite your stakeholders, this will really help you with your focus during the sprint.
+* Sprint Retrospective (&lt;1hr) – Keep these focused on small improvements for the next iteration. Take one (or two) improvement(s) and add it to your backlog and play it as a story in your next sprint
+* Daily Stand up (&lt;15min) – Keep the focus and try to avoid "solutionising" or too much detail during this time
 * Backlog refinement (approx. 10% of the time). Work out what works best for you here. Refinement is not just the PO’s job. You might want to do an hour each week, or say 15 mins per day. Experiment with this to find what works for you as a team.
  
 Sounds like a lot of meetings, right? It’s actually averages out to just 30 minutes per day over two weeks.

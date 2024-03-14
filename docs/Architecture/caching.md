@@ -61,7 +61,7 @@ the backing cache.
 | | Replicated | Distributed | Near Cache |
 |---|---|---|---|
 | optimisation|performance|consistency|balanced|
-| cache Size|small (<100 MB)|large (500 MB +)|large (500 MB +)|
+| cache Size|small (&lt;100 MB)|large (500 MB +)|large (500 MB +)|
 | type of data|relatively static|transactional|relatively static|
 | update frequency|relatively low|high|relatively low|
 | fault tolerance|high|low|low|
