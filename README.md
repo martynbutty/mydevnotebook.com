@@ -2,6 +2,11 @@
 
 This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
 
+### Dependancies
+Node >=16.14 (hint, try [NVM]())
+
+Then install yarn, which is now recommended to be installed via [corepack](https://yarnpkg.com/getting-started/install)
+
 ### Installation
 
 ```
