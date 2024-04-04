@@ -15,8 +15,7 @@
         <summary type="html"><![CDATA[Considerations and costs of backups of an Aurora database cluster]]></summary>
         <content type="html"><![CDATA[<p>In a previous article <a href="https://www.mydevnotebook.com/blog/2023/08/01/Aurora-Serverless-database-selection">Aurora Serverless database selection</a>, I discussed the high level considerations around selecting or upgrading to an Aurora server-less V2 database.</p>
 <p>If you decided that Aurora V2 is the way to go for your needs, one important but sometimes overlooked aspect is disaster recovery (DR), and in particular the backup configuration of your database. The following discusses some of the main points for configuring backups of an Aurora server-less V2 database.</p>
-<p><img src="https://www.mydevnotebook.com/assets/images/error-something-went-wrong-construction-concept-1c173d06b0251b9bd3dc71b03a1bb01a.jpg" width="5000" height="3760"></p>
-<p><a href="https://www.freepik.com/free-photo/error-something-went-wrong-construction-concept_18122893.htm#query=data%20loss&amp;position=20&amp;from_view=search&amp;track=country_rows_v2">Image by rawpixel.com</a> on Freepik</p>
+<p><img src="https://www.mydevnotebook.com/assets/images/error-something-went-wrong-8092487098b5820bbb9bd17dcc99d757.jpg" width="500" height="376"></p>
 <h2 id="aurora-backups">Aurora backups</h2>
 <p>AWS offers automated continuous backups from one to thirty five days. This period is known as the <strong>retention period</strong>.</p>
 <p>Automated backups store the information required to be able to restore the cluster to any point in time during the retention window. They are incremental and charged based on the amount of storage required for this restoration ability.</p>
