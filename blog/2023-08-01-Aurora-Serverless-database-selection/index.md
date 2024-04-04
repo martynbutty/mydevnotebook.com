@@ -6,7 +6,8 @@ hide_table_of_contents: false
 ---
 With the end of life of MySQL 5.7, you may be considering upgrading to Aurora serverless V2. Here I'll briefly discuss database selection, focussing on Aurora serverless V2 considerations and cluster configuration for production use. Aurora serverless V2 is a way of running a MySQL database without having to worry about the compute required for the predicted load.
 
-![Data Store Image](./jan-antonin-kolar-lRoX0shwjUQ-unsplash.jpg)
+![Data Store Image](./jan-antonin-kolar-unsplash.jpg)
+
 Photo by [Jan Antonin Kolar](https://unsplash.com/@jankolar?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on unsplash.com
 
 ## To SQL of not to SQL
