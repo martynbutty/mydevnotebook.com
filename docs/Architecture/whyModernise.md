@@ -7,6 +7,8 @@ One of the main goals of modernising from legacy systems is to keep up with inno
 to keep pace with competitors.
 
 ## Challenges of monoliths
+![challenges of monoliths diagram](../assets/challengesOfMonoliths.png)
+
 If your legacy systems are large and monolithic, they probably suffer from some or all of the following problems:
 * Releasing a small change means a full system release
 * You have to run the entire test suite, which may not pass for unrelated reasons which you'll then have to track down
