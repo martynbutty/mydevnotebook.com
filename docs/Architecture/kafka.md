@@ -5,7 +5,7 @@ description: A cheatsheet style overview and reminder of the main architecture o
 # Apache Kafka
 Apache Kafka is a distributed event store and stream-processing platform. It is an open-source system developed by the Apache Software Foundation. The platform can be used for real-time data pipelines, integration, stream processing, and more. This is a cheat sheet style overview of the main architecture of Apache Kafka.
 
-![Apache Kafka architecture diagram](../assets/kafka%20architecture.png)
+![Apache Kafka architecture diagram](../assets/kafka_architecture.png)
 HINT: If you're viewing this on a desktop browser, right click the above image and "open in new tab" for an un-scaled view.
 
 # Architecture - Main points
