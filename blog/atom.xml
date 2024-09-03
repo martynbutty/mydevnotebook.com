@@ -79,7 +79,7 @@
         <content type="html"><![CDATA[<p>With the end of life of MySQL 5.7, you may be considering upgrading to Aurora serverless V2. Here I'll briefly discuss database selection, focussing on Aurora serverless V2 considerations and cluster configuration for production use. Aurora serverless V2 is a way of running a MySQL database without having to worry about the compute required for the predicted load.</p>
 <p><img alt="Data Store Image" src="https://www.mydevnotebook.com/assets/images/jan-antonin-kolar-unsplash-1bd21dd64fefd2462850fb91ec2c371b.jpg" width="500" height="347"></p>
 <p>Photo by <a href="https://unsplash.com/@jankolar?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jan Antonin Kolar</a> on unsplash.com</p>
-<h2 id="to-sql-of-not-to-sql">To SQL of not to SQL</h2>
+<h2 id="to-sql-or-not-to-sql">To SQL or not to SQL</h2>
 <p>If you are changing the DB for your application, you should first consider <strong>if a relational database is still the best datastore for your application</strong>. For example, you may get cost, scalability and performance benefits by using a DynamoDB instead.</p>
 <p>Migrating to a non-relational DB is a larger piece of work, so you need to consider your future plans for your application and involve your product counterpart in your planning. You should try to identify tradeoffs, benefits and potential problems with the different approaches.</p>
 <h2 id="to-serverless-or-not-to-serverless">To serverless, or not to serverless</h2>
