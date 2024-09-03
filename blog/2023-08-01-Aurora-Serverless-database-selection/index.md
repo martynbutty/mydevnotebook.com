@@ -10,7 +10,7 @@ With the end of life of MySQL 5.7, you may be considering upgrading to Aurora se
 
 Photo by [Jan Antonin Kolar](https://unsplash.com/@jankolar?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on unsplash.com
 
-## To SQL of not to SQL
+## To SQL or not to SQL
 If you are changing the DB for your application, you should first consider **if a relational database is still the best datastore for your application**. For example, you may get cost, scalability and performance benefits by using a DynamoDB instead.
 
 Migrating to a non-relational DB is a larger piece of work, so you need to consider your future plans for your application and involve your product counterpart in your planning. You should try to identify tradeoffs, benefits and potential problems with the different approaches.
