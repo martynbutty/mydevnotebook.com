@@ -4,16 +4,74 @@
  * work well for content-centric websites.
  */
 
+/* Import custom fonts inspired by mel-ware.com */
+@font-face {
+  font-family: 'px437';
+  src: url('/fonts/px437_ibm.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'edunline';
+  src: url('/fonts/edunline.woff') format('woff');
+  font-display: swap;
+}
+
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
-  --ifm-color-primary-lightest: rgb(146, 224, 208);
+  /* Updated primary colors to match mel-ware.com green theme */
+  --ifm-color-primary: #8ded62;
+  --ifm-color-primary-dark: #69AE49;
+  --ifm-color-primary-darker: #5a9140;
+  --ifm-color-primary-darkest: #4a7435;
+  --ifm-color-primary-light: #9ef075;
+  --ifm-color-primary-lighter: #adf288;
+  --ifm-color-primary-lightest: #c5f6a7;
   --ifm-code-font-size: 95%;
+  
+  /* Custom font variables */
+  --ifm-font-family-base: 'px437', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --ifm-font-family-monospace: 'px437', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+  
+  /* Background and text colors inspired by mel-ware.com */
+  --ifm-background-color: #000000;
+  --ifm-font-color-base: #8ded62;
+  --ifm-link-color: #FFFFFF;
+  --ifm-link-hover-color: #8ded62;
+}
+
+/* Dark theme overrides */
+[data-theme='dark'] {
+  --ifm-background-color: #000000;
+  --ifm-font-color-base: #8ded62;
+  --ifm-link-color: #FFFFFF;
+  --ifm-link-hover-color: #8ded62;
+  --ifm-navbar-background-color: #000000;
+  --ifm-footer-background-color: #000000;
+}
+
+/* Apply retro styling to body */
+body {
+  font-family: var(--ifm-font-family-base);
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+}
+
+/* Style links with edunline font like mel-ware.com */
+a {
+  font-family: 'edunline', var(--ifm-font-family-base);
+  color: var(--ifm-link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--ifm-link-hover-color);
+}
+
+/* Style headings with px437 font */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'px437', var(--ifm-font-family-base);
+  color: #8ded62;
 }
 
 .docusaurus-highlight-code-line {
