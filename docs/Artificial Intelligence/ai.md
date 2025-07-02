@@ -12,6 +12,15 @@ Here you will find a non-exhaustive list of some key areas where AI techniques c
 solve problems. When time allows I will attempt to create sub-pages that take a deeper dive (but still only really 
 scratching the surface) of how AI can be implemented to solve problems in these areas.
 
+### Large Language Models (LLMs)
+LLMs represent a revolutionary leap in AI's ability to understand and generate human language. These models, trained on vast amounts of text data, can engage in sophisticated conversations, write code, analyse documents, and perform complex reasoning tasks. They've transformed how we interact with AI systems, making natural language the primary interface for many applications.
+
+### Foundation Models
+Foundation models are large-scale AI systems trained on broad, diverse datasets that serve as the foundation for numerous downstream tasks. Rather than building specialised models from scratch, these pre-trained models can be fine-tuned or adapted for specific applications, dramatically reducing development time and computational requirements. They represent a paradigm shift towards more generalised AI systems.
+
+### Modern Code Generation ("Vibe Coding")
+The emergence of AI-powered code generation has transformed software development. These systems can generate entire functions, classes, or even applications based on natural language descriptions. "Vibe coding" refers to this intuitive, conversational approach to programming where developers describe what they want and AI generates the implementation. This includes tools for code completion, debugging assistance, and architectural suggestions.
+
 ### Search
 Search is concerned with how to get your AI to search for solutions to some problem... any problem. This could be simple
  problems to more complex problems like searching for a route in order to provide driving directions.
@@ -36,6 +45,6 @@ Builds on from ML and is the inspiration for AI from human intelligence.
 
 ### Language
 Human language processing and comprehension. This is the area of AI that includes things like being able to talk to 
-devices and they (attempt) to understand you (speach recognition). It also involves things like  natural language 
+devices and they (attempt) to understand you (speech recognition). It also involves things like natural language 
 processing (NLP), summarisation, information extraction, language identification, machine translation, 
 text classification and more.
