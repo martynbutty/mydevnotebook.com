@@ -59,7 +59,7 @@ body {
 
 /* Style links with edunline font like mel-ware.com */
 a {
-  font-family: 'edunline', var(--ifm-font-family-base);
+  font-family: var(--ifm-font-family-base);
   color: var(--ifm-link-color);
   text-decoration: none;
 }
