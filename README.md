@@ -1,9 +1,9 @@
 # Website
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website is built using [Docusaurus 3](https://docusaurus.io/), a modern static website generator.
 
-### Dependancies
-Node >=16.14 (hint, try [NVM]())
+### Dependencies
+Node >=20.0 (hint, try [NVM](https://github.com/nvm-sh/nvm))
 
 Then install yarn, which is now recommended to be installed via [corepack](https://yarnpkg.com/getting-started/install)
 
