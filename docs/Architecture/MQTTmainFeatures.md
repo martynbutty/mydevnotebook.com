@@ -58,7 +58,7 @@ A message is resent when a *PUBACK* message for the initial transmission isn't r
 
 Even though the second copy was sent with the *DUP* flag set to true, this doesn't prevent the broker from sending duplicate messages to subscribers. This is because the *packet ID* of messages can be reused. A packet ID is only unique within an interaction.  Once a sender has received a PUBACK message, it can delete the local copy of the message, as it knows it was received so doesn't need to be resent. The session or interaction is concluded, and the packet ID  is free for use in another interaction. 
 
-[how QoS1 can have duplicates](../assets/MQTT_QoS1_duplicates.png)
+![how QoS1 can have duplicates](../assets/MQTT_QoS1_duplicates.png)
 
 As you can see in the above sequence diagram, a message using packet ID 256 is sent to the broker which results in the broker sending message 559 to a subscriber. As this interaction succeeded, ID 256 is released for re-use by the broker. 
 
