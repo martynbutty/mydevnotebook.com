@@ -11,7 +11,7 @@
 
 <script src="https://www.googletagmanager.com/gtag/js?id=G-H8PHRNFHKD" async></script>
 <script src="/ga.js"></script><link rel="stylesheet" href="/assets/css/styles.e7736506.css">
-<script src="/assets/js/runtime~main.632a3411.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.174a888f.js" defer="defer"></script>
 <script src="/assets/js/main.ab7b3e3b.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -49,7 +49,7 @@ QoS1 guarantees that your message will be delivered at least once. However with 
 <h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="duplicate-messages-with-qos1">Duplicate messages with QoS1<a href="#duplicate-messages-with-qos1" class="hash-link" aria-label="Direct link to Duplicate messages with QoS1" title="Direct link to Duplicate messages with QoS1" translate="no">​</a></h4>
 <p>A message is resent when a <em>PUBACK</em> message for the initial transmission isn&#x27;t received by the sender (maybe the TCP connection fails). The resent message will contain a <em>DUP</em> flag set to true to indicate that it is a duplicate message.</p>
 <p>Even though the second copy was sent with the <em>DUP</em> flag set to true, this doesn&#x27;t prevent the broker from sending duplicate messages to subscribers. This is because the <em>packet ID</em> of messages can be reused. A packet ID is only unique within an interaction.  Once a sender has received a PUBACK message, it can delete the local copy of the message, as it knows it was received so doesn&#x27;t need to be resent. The session or interaction is concluded, and the packet ID  is free for use in another interaction.</p>
-<p><a href="/assets/files/MQTT_QoS1_duplicates-29ff416b626c8101b5dac88e41a97d34.png" target="_blank" class="">how QoS1 can have duplicates</a></p>
+<p><img decoding="async" loading="lazy" alt="how QoS1 can have duplicates" src="/assets/images/MQTT_QoS1_duplicates-29ff416b626c8101b5dac88e41a97d34.png" width="1735" height="816" class="img_ev3q"></p>
 <p>As you can see in the above sequence diagram, a message using packet ID 256 is sent to the broker which results in the broker sending message 559 to a subscriber. As this interaction succeeded, ID 256 is released for re-use by the broker.</p>
 <p>Sometime later another message to the broker is assigned ID 256. This triggers message 209 to a subscriber. The publisher did not receive the PUBACK message because of a network failure, so re-sends the message. Now the broker has a message with packet ID 256 and the DUP flag set to 1. However because packet ID&#x27;s are re-used, there is no way for the broker to know if it was the first &quot;fizz&quot; message or second &quot;buzz&quot; message.</p>
 <p>MQTT could have been designed to have more complex handling of duplicate messages, however this would go against its lightweight nature, and maybe make it unsuitable for IoT applications. Therefore the broker cannot detect that it delivered packet ID 209 so it cannot ignore the resend, resulting in a duplicate message being sent to the subscriber.</p>
